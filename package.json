@@ -1,0 +1,34 @@
+{
+  "name": "create-choo-electron",
+  "description": "Create a fresh choo application",
+  "repository": "choojs/create-choo-electron",
+  "version": "1.6.1",
+  "bin": {
+    "create-choo-electron": "./bin.js"
+  },
+  "scripts": {
+    "deps": "dependency-check . && dependency-check . -i ./bin.js --extra --no-dev",
+    "start": "node .",
+    "test": "standard && npm run deps && npm run test-fast",
+    "test-fast": "rm -rf tmp && ./bin.js tmp"
+  },
+  "dependencies": {
+    "ansi-escape-sequences": "^3.0.0",
+    "async-collection": "^1.0.1",
+    "dedent": "^0.7.0",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "pump": "^1.0.2",
+    "rimraf": "^2.6.1"
+  },
+  "devDependencies": {
+    "dependency-check": "~2.6.0",
+    "standard": "^10.0.2"
+  },
+  "keywords": [
+    "generate",
+    "choo",
+    "create"
+  ],
+  "license": "MIT"
+}
