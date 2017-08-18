@@ -2,7 +2,14 @@
 [![npm version][2]][3] [![build status][4]][5]
 [![downloads][8]][9] [![js-standard-style][10]][11]
 
-Create a fresh choo application
+Create a fresh Choo Electron application.
+
+Development kindly sponsored by [nearForm](http://nearform.com/).
+
+## Features
+- Zero configuration.
+- Ready to be deployed out of the box.
+- Low footprint UI using [Choo frontend framework](https://github.com/choojs/choo).
 
 ## Usage
 ```sh
@@ -21,7 +28,7 @@ $ npx create-choo-electron <project-directory>
 
   Examples:
 
-    Create a new Choo application
+    Create a new Choo Electron application
     $ create-choo-electron
 
   Running into trouble? Feel free to file an issue:

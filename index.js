@@ -27,11 +27,23 @@ exports.writePackage = function (dir, cb) {
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "build": "bankai build index.js",
+      "build": "bankai build && build",
+      "dev": "bankai start index.js",
       "inspect": "bankai inspect index.js",
-      "start": "bankai start index.js",
+      "start": "NODE_ENV=development electron main.js",
       "test": "standard && test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
+    },
+    "build": {
+      "appId": "${name}",
+      "files": [
+        "**/*"
+      ],
+      "win": {
+        "target": [
+          "squirrel"
+        ]
+      }
     }
   }
   `
@@ -58,7 +70,7 @@ exports.writeReadme = function (dir, cb) {
   var name = path.basename(dir)
   var file = dedent`
     # ${name}
-    A very cute app
+    A very cute Electron app
 
     ## Routes
     Route              | File               | Description                     |
@@ -69,10 +81,29 @@ exports.writeReadme = function (dir, cb) {
     ## Commands
     Command                | Description                                      |
     -----------------------|--------------------------------------------------|
-    \`$ npm start\`        | Start the development server
+    \`$ npm start\`        | Start the Electron process
     \`$ npm test\`         | Lint, validate deps & run tests
     \`$ npm run build\`    | Compile all files into \`dist/\`
+    \`$ npm run dev\`      | Start the development server
     \`$ npm run inspect\`  | Inspect the bundle's dependencies
+  `
+
+  write(filename, file, cb)
+}
+
+exports.writeHtml = function (dir, cb) {
+  var filename = path.join(dir, 'index.html')
+  var file = dedent`
+    <!DOCTYPE html>
+    <html dir="ltr" lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <link rel="preload" as="style" href="http://localhost:8080/bundle.css" onload="this.rel='stylesheet'">
+        <script defer src="http://localhost:8080/bundle.js"></script>
+      </head>
+      <body></body>
+    </html>
   `
 
   write(filename, file, cb)
@@ -91,7 +122,6 @@ exports.writeIndex = function (dir, cb) {
       app.use(require('choo-devtools')())
       app.use(require('choo-log')())
     }
-    app.use(require('choo-service-worker')())
 
     app.route('/', require('./views/main'))
     app.route('/*', require('./views/404'))
@@ -103,64 +133,67 @@ exports.writeIndex = function (dir, cb) {
   write(filename, file, cb)
 }
 
-exports.writeServiceWorker = function (dir, cb) {
-  var filename = path.join(dir, 'sw.js')
-  var file = dedent`
-    /* global self */
-
-    var VERSION = String(Date.now())
-    var URLS = [
-      '/',
-      '/bundle.css',
-      '/bundle.js',
-      'assets/icon.png'
-    ]
-
-    // Respond with cached resources
-    self.addEventListener('fetch', function (e) {
-      e.respondWith(self.caches.match(e.request).then(function (request) {
-        if (request) return request
-        else return self.fetch(e.request)
-      }))
-    })
-
-    // Register worker
-    self.addEventListener('install', function (e) {
-      e.waitUntil(self.caches.open(VERSION).then(function (cache) {
-        return cache.addAll(URLS)
-      }))
-    })
-
-    // Remove outdated resources
-    self.addEventListener('activate', function (e) {
-      e.waitUntil(self.caches.keys().then(function (keyList) {
-        return Promise.all(keyList.map(function (key, i) {
-          if (keyList[i] !== VERSION) return self.caches.delete(keyList[i])
-        }))
-      }))
-    })
-  `
-
-  write(filename, file, cb)
-}
-
-exports.writeManifest = function (dir, cb) {
-  var filename = path.join(dir, 'manifest.json')
+exports.writeMain = function (dir, cb) {
+  var filename = path.join(dir, 'main.js')
   var name = path.basename(dir)
   var file = dedent`
-    {
-      "name": "${name}",
-      "short_name": "${name}",
-      "description": "A very cute app",
-      "start_url": "/",
-      "display": "standalone",
-      "background_color": "#ffc0cb",
-      "theme_color": "#ffc0cb",
-      "icons": [{
-        "src": "/assets/icon.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }]
+    var defaultMenu = require('electron-default-menu')
+    var electron = require('electron')
+    var path = require('path')
+    var url = require('url')
+
+    var BrowserWindow = electron.BrowserWindow
+    var Menu = electron.Menu
+    var app = electron.app
+
+    var win
+
+    var indexPath = url.format({
+      pathname: path.resolve(__dirname, 'index.html'),
+      protocol: 'file',
+      slashes: true
+    })
+
+    var windowStyles = {
+      width: 800,
+      height: 1000,
+      titleBarStyle: 'hidden-inset',
+      minWidth: 640,
+      minHeight: 395
+    }
+
+    app.setName('${name}')
+
+    var shouldQuit = app.makeSingleInstance(createInstance)
+    if (shouldQuit) app.quit()
+
+    app.on('ready', function () {
+      win = new BrowserWindow(windowStyles)
+      win.loadURL(indexPath)
+
+      win.webContents.on('did-finish-load', function () {
+        win.show()
+        var menu = Menu.buildFromTemplate(defaultMenu(app, electron.shell))
+        Menu.setApplicationMenu(menu)
+        if (process.env.NODE_ENV === 'development') {
+          win.webContents.openDevTools({ mode: 'detach' })
+        }
+      })
+
+      win.on('closed', function () {
+        win = null
+      })
+    })
+
+    app.on('window-all-closed', function () {
+      app.quit()
+    })
+
+    function createInstance () {
+      if (win) {
+        if (win.isMinimized()) win.restore()
+        win.focus()
+      }
     }
   `
 

@@ -75,7 +75,7 @@ function create (dir, argv) {
   var written = []
   var cmds = [
     function (done) {
-      print('Creating a new Choo app in ' + clr(dir, 'green') + '.\n')
+      print('Creating a new Choo Electron app in ' + clr(dir, 'green') + '.\n')
       lib.mkdir(dir, done)
     },
     function (done) {
@@ -88,10 +88,10 @@ function create (dir, argv) {
       print('\nInstalling packages, this might take a couple of minutes.')
       written.push(path.join(dir, 'node_modules'))
       var pkgs = [
-        'choo@next',
+        'choo',
         'choo-log',
         'choo-devtools',
-        'choo-service-worker',
+        'electron-collection',
         'tachyons'
       ]
       var msg = clrInstall(pkgs)
@@ -101,6 +101,9 @@ function create (dir, argv) {
     function (done) {
       var pkgs = [
         'bankai@next',
+        'electron',
+        'electron-builder',
+        'electron-builder-squirrel-windows',
         'standard'
       ]
       var msg = clrInstall(pkgs)
@@ -108,7 +111,7 @@ function create (dir, argv) {
       lib.devInstall(dir, pkgs, done)
     },
     function (done) {
-      print('')
+      print('') // print newline
       var filename = '.gitignore'
       printFile(filename)
       written.push(path.join(dir, filename))
@@ -127,10 +130,16 @@ function create (dir, argv) {
       lib.writeIndex(dir, done)
     },
     function (done) {
-      var filename = 'sw.js'
+      var filename = 'index.html'
       printFile(filename)
       written.push(path.join(dir, filename))
-      lib.writeServiceWorker(dir, done)
+      lib.writeHtml(dir, done)
+    },
+    function (done) {
+      var filename = 'main.js'
+      printFile(filename)
+      written.push(path.join(dir, filename))
+      lib.writeMain(dir, done)
     },
     function (done) {
       var filename = 'views/main.js'
@@ -143,12 +152,6 @@ function create (dir, argv) {
       printFile(filename)
       written.push(path.join(dir, filename))
       lib.writeNotFoundView(dir, done)
-    },
-    function (done) {
-      var filename = 'manifest.json'
-      printFile(filename)
-      written.push(path.join(dir, filename))
-      lib.writeManifest(dir, done)
     },
     function (done) {
       var filename = 'assets/icon.png'
@@ -179,9 +182,10 @@ function create (dir, argv) {
         ${clr('All done, good job!', 'magenta')} ${TRAIN}
 
         The following commands are available:
-          ${clr('npm start', 'cyan')}        Start the development server
+          ${clr('npm start', 'cyan')}        Start the Electron process
           ${clr('npm test', 'cyan')}         Lint, validate deps & run tests
           ${clr('npm run build', 'cyan')}    Compile all files to ${clr('dist/', 'green')}
+          ${clr('npm run dev', 'cyan')}      Start the development server
           ${clr('npm run inspect', 'cyan')}  Inspect the bundle dependencies
 
         Do you enjoy using this software? Become a backer:
