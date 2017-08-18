@@ -26,10 +26,12 @@ exports.writePackage = function (dir, cb) {
     "name": "${name}",
     "version": "1.0.0",
     "private": true,
+    "main": "main.js",
     "scripts": {
       "build": "bankai build && build",
       "dev": "bankai start index.js",
       "inspect": "bankai inspect index.js",
+      "pack": "bankai build && build --dir",
       "start": "NODE_ENV=development electron main.js",
       "test": "standard && test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
@@ -137,22 +139,15 @@ exports.writeMain = function (dir, cb) {
   var filename = path.join(dir, 'main.js')
   var name = path.basename(dir)
   var file = dedent`
+    var resolvePath = require('electron-collection/resolve-path')
     var defaultMenu = require('electron-default-menu')
     var electron = require('electron')
-    var path = require('path')
-    var url = require('url')
 
     var BrowserWindow = electron.BrowserWindow
     var Menu = electron.Menu
     var app = electron.app
 
     var win
-
-    var indexPath = url.format({
-      pathname: path.resolve(__dirname, 'index.html'),
-      protocol: 'file',
-      slashes: true
-    })
 
     var windowStyles = {
       width: 800,
@@ -169,7 +164,7 @@ exports.writeMain = function (dir, cb) {
 
     app.on('ready', function () {
       win = new BrowserWindow(windowStyles)
-      win.loadURL(indexPath)
+      win.loadURL('file://' + resolvePath('./index.html'))
 
       win.webContents.on('did-finish-load', function () {
         win.show()
