@@ -140,7 +140,7 @@ exports.writeMain = function (dir, cb) {
   var name = path.basename(dir)
   var file = dedent`
     var resolvePath = require('electron-collection/resolve-path')
-    var defaultMenu = require('electron-default-menu')
+    var defaultMenu = require('electron-collection/default-menu')
     var electron = require('electron')
 
     var BrowserWindow = electron.BrowserWindow
