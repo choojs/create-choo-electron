@@ -1,7 +1,7 @@
 {
   "name": "create-choo-electron",
   "description": "Create a fresh choo application",
-  "repository": "choojs/create-choo-electron",
+  "repository": "nearform/create-choo-electron",
   "version": "1.6.1",
   "bin": {
     "create-choo-electron": "./bin.js"
