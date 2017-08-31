@@ -4,7 +4,7 @@
 
 Create a fresh Choo Electron application.
 
-Development kindly sponsored by [nearForm](http://nearform.com/).
+Development kindly funded by [nearForm](http://nearform.com/opensource).
 
 ## Features
 - Zero configuration.
