@@ -92,6 +92,7 @@ function create (dir, argv) {
         'choo-log',
         'choo-devtools',
         'electron-collection',
+        'sheetify',
         'tachyons'
       ]
       var msg = clrInstall(pkgs)
@@ -101,6 +102,7 @@ function create (dir, argv) {
     function (done) {
       var pkgs = [
         'bankai@next',
+        'dependency-check',
         'electron',
         'electron-builder',
         'electron-builder-squirrel-windows',
