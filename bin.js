@@ -88,12 +88,12 @@ function create (dir, argv) {
       print('\nInstalling packages, this might take a couple of minutes.')
       written.push(path.join(dir, 'node_modules'))
       var pkgs = [
-        'choo',
-        'choo-log',
-        'choo-devtools',
-        'electron-collection',
-        'sheetify',
-        'tachyons'
+        'choo@6',
+        'choo-log@7',
+        'choo-devtools@1',
+        'electron-collection@1',
+        'sheetify@6',
+        'tachyons@4'
       ]
       var msg = clrInstall(pkgs)
       print('Installing ' + msg + '…')
@@ -101,12 +101,12 @@ function create (dir, argv) {
     },
     function (done) {
       var pkgs = [
-        'bankai@next',
-        'dependency-check',
-        'electron',
-        'electron-builder',
-        'electron-builder-squirrel-windows',
-        'standard'
+        'bankai@9',
+        'dependency-check@2',
+        'electron@1',
+        'electron-builder@19',
+        'electron-builder-squirrel-windows@19',
+        'standard@10'
       ]
       var msg = clrInstall(pkgs)
       print('Installing ' + msg + '…')
