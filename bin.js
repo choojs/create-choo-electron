@@ -101,7 +101,7 @@ function create (dir, argv) {
     },
     function (done) {
       var pkgs = [
-        'bankai@9',
+        'bankai@next',
         'dependency-check@2',
         'electron@1',
         'electron-builder@19',
