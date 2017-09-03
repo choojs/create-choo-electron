@@ -33,8 +33,8 @@ exports.writePackage = function (dir, cb) {
       "inspect": "bankai inspect index.js",
       "pack": "bankai build && build --dir",
       "start": "NODE_ENV=development electron main.js",
-      "test": "standard && test-deps",
-      "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
+      "test": "standard && npm run test-deps",
+      "test-deps": "dependency-check . --entry index.js && dependency-check . --entry index.js --extra --no-dev -i tachyons"
     },
     "build": {
       "appId": "${name}",
@@ -129,7 +129,7 @@ exports.writeIndex = function (dir, cb) {
     app.route('/*', require('./views/404'))
 
     if (!module.parent) app.mount('body')
-    else module.exports = app
+    else module.exports = app\n
   `
 
   write(filename, file, cb)
@@ -189,7 +189,7 @@ exports.writeMain = function (dir, cb) {
         if (win.isMinimized()) win.restore()
         win.focus()
       }
-    }
+    }\n
   `
 
   write(filename, file, cb)
@@ -217,7 +217,7 @@ exports.writeNotFoundView = function (dir, cb) {
           </a>
         </body>
       \`
-    }
+    }\n
   `
 
   mkdirp(dirname, function (err) {
@@ -245,7 +245,7 @@ exports.writeMainView = function (dir, cb) {
           </h1>
         </body>
       \`
-    }
+    }\n
   `
 
   mkdirp(dirname, function (err) {
