@@ -32,7 +32,7 @@ exports.writePackage = function (dir, cb) {
       "dev": "bankai start index.js",
       "inspect": "bankai inspect index.js",
       "pack": "bankai build && build --dir",
-      "start": "NODE_ENV=development electron main.js",
+      "start": "electron main.js",
       "test": "standard && test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
     },
@@ -170,7 +170,7 @@ exports.writeMain = function (dir, cb) {
         win.show()
         var menu = Menu.buildFromTemplate(defaultMenu(app, electron.shell))
         Menu.setApplicationMenu(menu)
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV !== 'production') {
           win.webContents.openDevTools({ mode: 'detach' })
         }
       })
