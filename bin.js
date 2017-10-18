@@ -89,7 +89,6 @@ function create (dir, argv) {
       written.push(path.join(dir, 'node_modules'))
       var pkgs = [
         'choo',
-        'choo-log',
         'choo-devtools',
         'electron-collection',
         'tachyons'
@@ -100,7 +99,7 @@ function create (dir, argv) {
     },
     function (done) {
       var pkgs = [
-        'bankai@next',
+        'bankai',
         'electron',
         'electron-builder',
         'electron-builder-squirrel-windows',
