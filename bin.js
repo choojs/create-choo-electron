@@ -99,7 +99,7 @@ function create (dir, argv) {
     },
     function (done) {
       var pkgs = [
-        'bankai',
+        'bankai@8',
         'electron',
         'electron-builder',
         'electron-builder-squirrel-windows',
