@@ -32,7 +32,7 @@ exports.writePackage = function (dir, cb) {
       "dev": "bankai start index.js",
       "inspect": "bankai inspect index.js",
       "pack": "bankai build && build --dir",
-      "start": "NODE_ENV=development electron main.js",
+      "start": "cross-env NODE_ENV=development electron main.js",
       "test": "standard && test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
     },
