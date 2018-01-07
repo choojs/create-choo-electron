@@ -29,7 +29,7 @@ exports.writePackage = function (dir, cb) {
     "main": "main.js",
     "scripts": {
       "build": "bankai build && build",
-      "dev": "bankai start index.js",
+      "dev": "bankai start index.js --electron",
       "inspect": "bankai inspect index.js",
       "pack": "bankai build && build --dir",
       "start": "NODE_ENV=development electron main.js",
