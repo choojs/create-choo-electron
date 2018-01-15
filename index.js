@@ -179,6 +179,17 @@ exports.writeMain = function (dir, cb) {
       })
     })
 
+    if (process.env === 'development') {
+      app.on('certificate-error', funciton (event, webContents, url, err, cert, cb) {
+        if (url.match('https://localhost')) {
+          event.preventDefault()
+          cb(true)
+        } else {
+          cb(false)
+        }
+      })
+    }
+
     app.on('window-all-closed', function () {
       app.quit()
     })
