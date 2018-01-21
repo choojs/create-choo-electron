@@ -12,9 +12,24 @@ Development kindly funded by [nearForm](http://nearform.com/opensource).
 - Low footprint UI using [Choo frontend framework](https://github.com/choojs/choo).
 
 ## Usage
+
 ```sh
 $ npx create-choo-electron <project-directory>
 ```
+
+Then, once your new choo-electron app has installed itself, running the app in dev-mode is a two step process requiring two separate terminal windows. In the first terminal window run bankai with the run dev command:
+
+```bash
+  >npm run dev
+```
+
+Then in the second terminal run electron:
+
+```bash
+  >npm start
+```
+
+Now you should have your development environment setup and read to go! Bankai will reload automagically, however to see your changes in electron you will need to reload the electron window with ```Ctrl-r```. Chooohooo! :)
 
 ## API
 ```txt
