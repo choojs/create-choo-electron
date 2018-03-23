@@ -179,8 +179,8 @@ exports.writeMain = function (dir, cb) {
       })
     })
 
-    if (process.env === 'development') {
-      app.on('certificate-error', funciton (event, webContents, url, err, cert, cb) {
+    if (process.env.NODE_ENV === 'development') {
+      app.on('certificate-error', function (event, webContents, url, err, cert, cb) {
         if (url.match('https://localhost')) {
           event.preventDefault()
           cb(true)
