@@ -101,6 +101,7 @@ function create (dir, argv) {
       var pkgs = [
         'bankai@8',
         'electron',
+        'cross-env',
         'electron-builder',
         'electron-builder-squirrel-windows',
         'standard'
