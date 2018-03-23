@@ -27,7 +27,7 @@ var USAGE = `
     ${clr('$ create-choo-electron', 'cyan')}
 
   Running into trouble? Feel free to file an issue:
-  ${clr('https://github.com/nearform/create-choo-electron/issues/new', 'cyan')}
+  ${clr('https://github.com/choojs/create-choo-electron/issues/new', 'cyan')}
 
   Do you enjoy using this software? Become a backer:
   ${clr('https://opencollective.com/choo', 'cyan')}
