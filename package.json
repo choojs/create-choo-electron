@@ -2,7 +2,7 @@
   "name": "create-choo-electron",
   "description": "Create a fresh choo application",
   "repository": "choojs/create-choo-electron",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "bin": {
     "create-choo-electron": "./bin.js"
   },
