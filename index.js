@@ -163,7 +163,10 @@ exports.writeMain = function (dir, cb) {
 
     app.on('ready', function () {
       win = new BrowserWindow(windowStyles)
-      win.loadURL('file://' + resolvePath('./index.html'))
+      var root = process.env.NODE_ENV === 'development'
+        ? 'https://localhost:8080'
+        : 'file://' + resolvePath('./index.html')
+      win.loadURL(root)
 
       win.webContents.on('did-finish-load', function () {
         win.show()
